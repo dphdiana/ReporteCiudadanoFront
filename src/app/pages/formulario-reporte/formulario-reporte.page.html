@@ -9,27 +9,27 @@
     <form [formGroup]="reporteForm" (ngSubmit)="enviarReporte()">
       <ion-list lines="full">
 
-        <ion-item class="input-item">
+        <ion-item>
           <ion-label position="floating">Nombre</ion-label>
           <ion-input formControlName="nombre"></ion-input>
         </ion-item>
 
-        <ion-item class="input-item">
+        <ion-item>
           <ion-label position="floating">Apellidos</ion-label>
           <ion-input formControlName="apellidos"></ion-input>
         </ion-item>
 
-        <ion-item class="input-item">
+        <ion-item>
           <ion-label position="floating">Correo</ion-label>
           <ion-input type="email" formControlName="correo"></ion-input>
         </ion-item>
 
-        <ion-item class="input-item">
+        <ion-item>
           <ion-label position="floating">Teléfono</ion-label>
           <ion-input type="tel" formControlName="telefono"></ion-input>
         </ion-item>
 
-        <ion-item class="input-item">
+        <ion-item>
           <ion-label>Tipo</ion-label>
           <ion-select formControlName="tipo">
             <ion-select-option value="queja">Queja</ion-select-option>
@@ -37,14 +37,23 @@
           </ion-select>
         </ion-item>
 
-        <ion-item class="input-item">
+        <ion-item>
+          <ion-label>Categoría</ion-label>
+          <ion-select formControlName="categoria">
+            <ion-select-option value="vial">Vial</ion-select-option>
+            <ion-select-option value="seguridad">Seguridad</ion-select-option>
+            <ion-select-option value="servicios">Servicios</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
           <ion-label position="floating">Descripción</ion-label>
           <ion-textarea formControlName="descripcion" autoGrow="true"></ion-textarea>
         </ion-item>
 
-        <ion-item class="input-item">
+        <ion-item>
           <ion-label>Foto</ion-label>
-          <input type="file" (change)="onFileChange($event)" />
+          <ion-button expand="block" (click)="tomarFoto()">Tomar Foto</ion-button>
         </ion-item>
 
         <div *ngIf="selectedImage" class="preview-container">
