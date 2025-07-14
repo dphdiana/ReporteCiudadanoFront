@@ -1,24 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { IonContent, IonHeader, IonTitle, IonToolbar,IonItem,IonLabel,IonImg,IonSelectOption,IonButton, IonList} from '@ionic/angular/standalone';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar,
+  IonItem, IonLabel, IonImg, IonSelectOption,
+  IonButton, IonList, IonInput, IonSelect,
+  IonTextarea
+} from '@ionic/angular/standalone';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 @Component({
   selector: 'app-formulario-reporte',
   templateUrl: './formulario-reporte.page.html',
   styleUrls: ['./formulario-reporte.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-           IonItem, IonLabel, IonImg, IonSelectOption, IonButton, ReactiveFormsModule, IonList]
-
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // Ionic Components
+    IonContent, IonHeader, IonTitle, IonToolbar,
+    IonItem, IonLabel, IonImg, IonSelectOption,
+    IonButton, IonList, IonInput, IonSelect,
+    IonTextarea
+  ]
 })
 export class FormularioReportePage implements OnInit {
-  reporteForm: FormGroup;
-  selectedImage: string | ArrayBuffer | null = null;
+  reporteForm!: FormGroup;
+  selectedImage: string | null = null;
   selectedFile: File | null = null;
+  isSubmitting = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.reporteForm = this.fb.group({
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
@@ -30,41 +50,50 @@ export class FormularioReportePage implements OnInit {
     });
   }
 
-  async tomarFoto() {
-    const image = await Camera.getPhoto({
-      quality: 80,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera,
-    });
+  async tomarFoto(): Promise<void> {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 80,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+      });
 
-    if (image.dataUrl) {
-      this.selectedImage = image.dataUrl;
-
-      const blob = await fetch(image.dataUrl).then(res => res.blob());
-      this.selectedFile = new File([blob], 'foto.jpg', { type: blob.type });
+      if (image.dataUrl) {
+        this.selectedImage = image.dataUrl;
+        const blob = await (await fetch(image.dataUrl)).blob();
+        this.selectedFile = new File([blob], `foto_${Date.now()}.jpg`, { type: blob.type });
+      }
+    } catch (error) {
+      console.error('Error al tomar foto:', error);
+      // Manejo de errores
     }
   }
 
-  enviarReporte() {
-    if (this.reporteForm.invalid || !this.selectedFile) {
+  enviarReporte(): void {
+    if (this.reporteForm.invalid) {
       this.reporteForm.markAllAsTouched();
       return;
     }
 
-    const formData = new FormData();
-    const datos = this.reporteForm.value;
+    this.isSubmitting = true;
+    const formData = this.prepareFormData();
+    
+    console.log('Datos a enviar:', formData);
+    // Aquí iría tu llamada HTTP
+    // .finally(() => this.isSubmitting = false);
+  }
 
-    for (const campo in datos) {
-      formData.append(campo, datos[campo]);
+  private prepareFormData(): FormData {
+    const formData = new FormData();
+    Object.entries(this.reporteForm.value).forEach(([key, value]) => {
+      formData.append(key, value as string | Blob);
+    });
+
+    if (this.selectedFile) {
+      formData.append('foto', this.selectedFile);
     }
 
-    formData.append('foto', this.selectedFile);
-
-    console.log('Formulario listo para enviar:', formData);
-    // Aquí va tu llamada HTTP
-  }
-  ngOnInit() {
-    // Inicialización adicional si es necesario
+    return formData;
   }
 }

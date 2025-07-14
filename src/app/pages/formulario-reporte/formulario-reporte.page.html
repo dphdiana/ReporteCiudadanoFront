@@ -1,22 +1,22 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Reporte Ciudadano</ion-title>
+  <ion-toolbar color="primary ">
+    <ion-title class="form-title">Reporte Ciudadano</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="form-container ion-padding">
     <form [formGroup]="reporteForm" (ngSubmit)="enviarReporte()">
-      <ion-list lines="full">
+      <ion-list lines="full" class="form-list">
 
         <ion-item>
-          <ion-label position="floating">Nombre</ion-label>
-          <ion-input formControlName="nombre"></ion-input>
+          <ion-label class="input-label" position="floating">Nombre</ion-label>
+          <ion-input type="text" formControlName="nombre"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Apellidos</ion-label>
-          <ion-input formControlName="apellidos"></ion-input>
+          <ion-input type="text" formControlName="apellidos" ></ion-input>
         </ion-item>
 
         <ion-item>
