@@ -11,6 +11,10 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'register',
+    loadComponent : () => import('./pages/ciudadano/register/register.component').then( m => m.RegisterComponent)
+  },
+  {
     path: 'formulario-reporte',
     loadComponent: () => import('./pages/formulario-reporte/formulario-reporte.page').then( m => m.FormularioReportePage)
   },
@@ -18,9 +22,6 @@ export const routes: Routes = [
     path: 'admin-reportes',
     loadComponent: () => import('./pages/admin-reportes/admin-reportes.page').then( m => m.AdminReportesPage)
   },
-    {
-    path: 'login',
-    loadComponent: () => import('./pages/ciudadano/login/login.component').then( m => m.LoginComponent)
-  },
+
 
 ];

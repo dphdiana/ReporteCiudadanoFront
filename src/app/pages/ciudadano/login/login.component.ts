@@ -1,29 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import {
-  IonContent, IonHeader, IonTitle, IonToolbar,
-  IonItem, IonLabel, IonImg, IonSelectOption,
-  IonButton, IonList, IonInput, IonSelect,
-  IonTextarea
+  IonContent, 
+  IonItem, IonLabel, 
+  IonButton, IonInput
 } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
+
 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports:[
+  standalone: true,
+  imports: [
     CommonModule,
     IonContent,
     IonItem,
     IonLabel,
     IonInput,
     IonButton,
-    FormsModule
-  ]
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule
+]
 })
 export class LoginComponent  implements OnInit {
   usuario: string = '';
@@ -64,6 +67,6 @@ export class LoginComponent  implements OnInit {
   registrarse() {
     // Navegar a página de registro
     console.log('Navegando a registro...');
-    // this.router.navigate(['/register']);
+    this.router.navigate(['/register'])
   }
 }
