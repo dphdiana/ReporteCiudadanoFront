@@ -1,13 +1,52 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>admin-reportes</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">admin-reportes</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Resumen</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Total de reportes: <strong>{{ totalReportes }}</strong></p>
+      <p>Quejas: <strong>{{ totalQuejas }}</strong></p>
+      <p>Sugerencias: <strong>{{ totalSugerencias }}</strong></p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Reportes Recientes</ion-card-title>
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let reporte of reportesRecientes">
+        <ion-label>
+          <h3>{{ reporte.nombre }}</h3>
+          <p>{{ reporte.tipo }} - {{ reporte.categoria }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Estadísticas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+       <canvas baseChart
+  [data]="graficaData"
+  [type]="'doughnut'">
+</canvas>
+<canvas baseChart
+  [data]="graficaData"
+  [type]="'doughnut'">
+</canvas>
+
+     
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

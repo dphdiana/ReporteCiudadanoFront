@@ -13,21 +13,33 @@
           <ion-label class="input-label" position="floating">Nombre</ion-label>
           <ion-input type="text" formControlName="nombre"></ion-input>
         </ion-item>
+        <ion-text color="danger" *ngIf="campoInvalido('nombre')">
+        El nombre es obligatorio
+        </ion-text>
 
         <ion-item>
           <ion-label position="floating">Apellidos</ion-label>
           <ion-input type="text" formControlName="apellidos" ></ion-input>
         </ion-item>
+        <ion-text color="danger" *ngIf="campoInvalido('apellidos')">
+        Los apellidos son obligatorios
+        </ion-text>
 
         <ion-item>
           <ion-label position="floating">Correo</ion-label>
           <ion-input type="email" formControlName="correo"></ion-input>
         </ion-item>
+        <ion-text color="danger" *ngIf="campoInvalido('correo')">
+        El correo es obligatori
+        </ion-text>
 
         <ion-item>
           <ion-label position="floating">Teléfono</ion-label>
           <ion-input type="tel" formControlName="telefono"></ion-input>
         </ion-item>
+        <ion-text color="danger" *ngIf="campoInvalido('telefono')">
+        El teléfono es obligatorio y debe tener al menos 10 dígitos
+        </ion-text>
 
         <ion-item>
           <ion-label>Tipo</ion-label>
@@ -61,9 +73,10 @@
           <ion-img [src]="selectedImage" class="preview-img"></ion-img>
         </div>
 
-        <ion-button expand="block" type="submit" class="ion-margin-top">
+        <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="reporteForm.invalid ||isSubmitting">
           Enviar Reporte
         </ion-button>
+      
       </ion-list>
     </form>
   </div>

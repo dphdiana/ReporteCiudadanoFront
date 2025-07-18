@@ -6,7 +6,7 @@ import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonItem, IonLabel, IonImg, IonSelectOption,
   IonButton, IonList, IonInput, IonSelect,
-  IonTextarea
+  IonTextarea,IonText
 } from '@ionic/angular/standalone';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
@@ -23,7 +23,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonItem, IonLabel, IonImg, IonSelectOption,
     IonButton, IonList, IonInput, IonSelect,
-    IonTextarea
+    IonTextarea,IonText
   ]
 })
 export class FormularioReportePage implements OnInit {
@@ -96,4 +96,9 @@ export class FormularioReportePage implements OnInit {
 
     return formData;
   }
+
+  campoInvalido(campo: string): boolean {
+  const control = this.reporteForm.get(campo);
+  return !!(control && control.invalid && (control.dirty || control.touched));
+}
 }
