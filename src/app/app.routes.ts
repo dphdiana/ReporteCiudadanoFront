@@ -2,13 +2,17 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: 'login',
+    loadComponent: () => import('./pages/ciudadano/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full',
+  },
+  {
+    path: 'register',
+    loadComponent : () => import('./pages/ciudadano/register/register.component').then( m => m.RegisterComponent)
   },
   {
     path: 'formulario-reporte',
@@ -18,5 +22,6 @@ export const routes: Routes = [
     path: 'admin-reportes',
     loadComponent: () => import('./pages/admin-reportes/admin-reportes.page').then( m => m.AdminReportesPage)
   },
+
 
 ];

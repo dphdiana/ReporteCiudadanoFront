@@ -1,0 +1,89 @@
+.login-content {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --color: white;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.logo-container {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.logo-image {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-container {
+  width: 100%;
+  max-width: 300px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-item {
+  --background: rgba(255, 255, 255, 0.9);
+  --color: #333;
+  --border-radius: 8px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  ion-label {
+    --color: #666;
+    font-weight: 500;
+  }
+
+  ion-input {
+    --color: #333;
+    --placeholder-color: #999;
+  }
+}
+
+.login-button {
+  --background: #4CAF50;
+  --background-hover: #45a049;
+  --color: white;
+  --border-radius: 25px;
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-text {
+  color: #ffffff;
+  text-decoration: underline;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #e0e0e0;
+  }
+}
