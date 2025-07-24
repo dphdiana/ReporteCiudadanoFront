@@ -1,52 +1,27 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Dashboard</ion-title>
+    <ion-title>Lista de Reportes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-list *ngIf="reportes.length > 0; else noReportes">
+    <ion-item *ngFor="let reporte of reportes" lines="inset">
+      <ion-thumbnail slot="start" *ngIf="reporte.foto">
+        <ion-img [src]="reporte.foto" alt="Foto del reporte"></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ reporte.tipo }}</h2>
+        <p><strong>Reportado por:</strong> {{ reporte.nombre }}</p>
+        <p><strong>Descripción:</strong> {{ reporte.descripcion }}</p>
+        <p><strong>Fecha:</strong> {{ reporte.fecha }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Resumen</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Total de reportes: <strong>{{ totalReportes }}</strong></p>
-      <p>Quejas: <strong>{{ totalQuejas }}</strong></p>
-      <p>Sugerencias: <strong>{{ totalSugerencias }}</strong></p>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Reportes Recientes</ion-card-title>
-    </ion-card-header>
-    <ion-list>
-      <ion-item *ngFor="let reporte of reportesRecientes">
-        <ion-label>
-          <h3>{{ reporte.nombre }}</h3>
-          <p>{{ reporte.tipo }} - {{ reporte.categoria }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Estadísticas</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-       <canvas baseChart
-  [data]="graficaData"
-  [type]="'doughnut'">
-</canvas>
-<canvas baseChart
-  [data]="graficaData"
-  [type]="'doughnut'">
-</canvas>
-
-     
-    </ion-card-content>
-  </ion-card>
-
+  <ng-template #noReportes>
+    <ion-text color="medium">
+      <p class="ion-text-center">No hay reportes disponibles.</p>
+    </ion-text>
+  </ng-template>
 </ion-content>
