@@ -37,7 +37,7 @@ export class LoginComponent  implements OnInit {
     private alertController: AlertController
   ) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    
   }
 
   async ingresar() {
@@ -62,10 +62,10 @@ export class LoginComponent  implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+          this.router.navigate(['/reportes-list'])
   }
 
   registrarse() {
-    // Navegar a página de registro
     console.log('Navegando a registro...');
     this.router.navigate(['/register'])
   }

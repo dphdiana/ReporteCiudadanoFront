@@ -39,7 +39,7 @@ nombre: string = '';
     private alertController: AlertController
   ) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    
   }
 
   async registrarse() {

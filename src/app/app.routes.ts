@@ -22,6 +22,8 @@ export const routes: Routes = [
     path: 'admin-reportes',
     loadComponent: () => import('./pages/admin-reportes/admin-reportes.page').then( m => m.AdminReportesPage)
   },
-
-
+    {
+    path: 'reportes-list',
+    loadComponent: () => import('./pages/ciudadano/reportes-list/reportes-list.component').then( m => m.ReportesListComponent)
+  },
 ];
