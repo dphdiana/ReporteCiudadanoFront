@@ -1,128 +1,95 @@
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { AlertController } from '@ionic/angular';
-import {
-  IonContent, IonHeader, IonTitle, IonToolbar,
-  IonItem, IonLabel, IonImg, IonSelectOption,
-  IonButton, IonList, IonInput, IonSelect,
-  IonTextarea
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { 
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonInput,
+  IonButton,
+  IonSpinner,
+  IonSelect,
+  IonSelectOption,
+  ToastController
 } from '@ionic/angular/standalone';
+import { AuthService } from 'src/app/services/auth.service';
+import { HttpClient } from '@angular/common/http';
+// Define el tipo para tipo_usuario
+type UserType = 'ciudadano' | 'empresa';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
-    imports: [
-    CommonModule,
+  standalone: true,
+  imports: [
+    CommonModule, 
+    FormsModule,
     IonContent,
     IonItem,
     IonLabel,
     IonInput,
     IonButton,
-    FormsModule,
+    IonSpinner,
+    IonSelect,
+    IonSelectOption,
     RouterModule,
-    ReactiveFormsModule
-]
+    
+  ],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent  implements OnInit {
-
-nombre: string = '';
-  email: string = '';
-  usuario: string = '';
-  contrasena: string = '';
-  confirmarContrasena: string = '';
+export class RegisterComponent {
+  nombre = '';
+  correo = '';
+  password = '';
+  tipo_usuario: UserType = 'ciudadano'; // Valor por defecto
+  loading = false;
 
   constructor(
-    private router: Router,
-    private alertController: AlertController
+    private authService: AuthService,
+    private toastController: ToastController,
+    private router: Router
   ) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
   }
-
-  async registrarse() {
-    // Validar campos vacíos
-    if (!this.nombre || !this.email || !this.usuario || !this.contrasena || !this.confirmarContrasena) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Por favor complete todos los campos',
-        buttons: ['OK']
-      });
-      await alert.present();
+  async registrar() {
+    if (!this.nombre || !this.correo || !this.password) {
+      await this.presentToast('Todos los campos son obligatorios.');
       return;
     }
 
-    // Validar email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.email)) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Por favor ingrese un email válido',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
-    }
+    this.loading = true;
 
-    // Validar contraseñas coincidan
-    if (this.contrasena !== this.confirmarContrasena) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Las contraseñas no coinciden',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
-    }
-
-    // Validar longitud de contraseña
-    if (this.contrasena.length < 6) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'La contraseña debe tener al menos 6 caracteres',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
-    }
-
-    // Aquí puedes agregar tu lógica de registro
-    console.log('Datos de registro:', {
+    const registerData = {
       nombre: this.nombre,
-      email: this.email,
-      usuario: this.usuario,
-      contrasena: this.contrasena
+      correo: this.correo,
+      password: this.password,
+      tipo_usuario: this.tipo_usuario
+    };
+
+    this.authService.register(registerData).subscribe({
+      next: async () => {
+        await this.presentToast('¡Registro exitoso!');
+        this.router.navigate(['/login']);
+      },
+      error: async (err) => {
+        const errorMessage = err.error?.message || 'Error en el registro';
+        await this.presentToast(`Error: ${errorMessage}`);
+      },
+      complete: () => {
+        this.loading = false;
+      }
     });
+  }
 
-    // Simulación de registro exitoso
-    const alert = await this.alertController.create({
-      header: 'Éxito',
-      message: 'Registro completado exitosamente',
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.router.navigate(['/login']);
-          }
-        }
-      ]
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000,
+      position: 'bottom'
     });
-    await alert.present();
+    await toast.present();
   }
-
-  volverAlLogin() {
-    this.router.navigate(['/login']);
-  }
-
-  // Método para limpiar el formulario
-  limpiarFormulario() {
-    this.nombre = '';
-    this.email = '';
-    this.usuario = '';
-    this.contrasena = '';
-    this.confirmarContrasena = '';
-  }
-
 }

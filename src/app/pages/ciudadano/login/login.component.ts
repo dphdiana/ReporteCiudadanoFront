@@ -5,9 +5,10 @@ import { Router, RouterModule } from '@angular/router';
 import {
   IonContent, 
   IonItem, IonLabel, 
-  IonButton, IonInput
+  IonButton, IonInput,IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton
 } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 
@@ -23,50 +24,41 @@ import { AlertController } from '@ionic/angular';
     IonLabel,
     IonInput,
     IonButton,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
     FormsModule,
+  
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
+    
 ]
 })
 export class LoginComponent  implements OnInit {
-  usuario: string = '';
-  contrasena: string = '';
-
-  constructor(
-    private router: Router,
-    private alertController: AlertController
+   correo = '';
+  password = '';
+  constructor(private authService: AuthService
+              , private router: Router, private alertController: AlertController
   ) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
 
-  async ingresar() {
-    if (!this.usuario || !this.contrasena) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Por favor complete todos los campos',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
+  }
+onLogin() {
+  this.authService.login(this.correo, this.password).subscribe({
+    next: (response: any) => {
+      console.log('Login exitoso');
+
+      // GUARDAR EL TOKEN
+      localStorage.setItem('token', response.token); // <- GUÁRDALO AQUÍ
+
+      this.router.navigate(['/formulario-reporte']);
+    },
+    error: (err) => {
+      console.error('Error de login', err);
+      alert('Credenciales incorrectas o error del servidor');
     }
-
-    // Aquí puedes agregar tu lógica de autenticación
-    console.log('Usuario:', this.usuario);
-    console.log('Contraseña:', this.contrasena);
-    
-    // Simulación de login exitoso
-    const alert = await this.alertController.create({
-      header: 'Éxito',
-      message: 'Inicio de sesión exitoso',
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
-
-  registrarse() {
-    // Navegar a página de registro
-    console.log('Navegando a registro...');
-    this.router.navigate(['/register'])
-  }
+  });
+}
 }

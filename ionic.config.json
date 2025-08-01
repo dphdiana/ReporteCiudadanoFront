@@ -1,5 +1,7 @@
 {
   "name": "reportes-ciudadanos",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular-standalone"
 }

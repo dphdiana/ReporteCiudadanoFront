@@ -14,7 +14,7 @@ import {
   close, documentText, folderOpen,
   settings, helpCircle, logOut
 } from 'ionicons/icons';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -25,11 +25,7 @@ import {
     IonList, IonItem, IonLabel, IonMenuToggle,
     IonHeader, IonToolbar, IonTitle, IonButtons,
     IonMenuButton, IonIcon, IonBadge, IonButton,
-    IonAvatar,
-    
-    // Módulos Angular
-    CommonModule,
-    RouterModule
+    IonAvatar,CommonModule,RouterModule
   ]
 })
 export class AppComponent {
