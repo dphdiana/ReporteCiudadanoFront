@@ -1,3 +1,20 @@
-<p>
-  reportes-list works!
-</p>
+
+<ion-grid class="ion-padding">
+  <!-- Encabezado -->
+  <ion-row class="table-header ion-text-center" color="light">
+    <ion-col size="2"><strong>No.</strong></ion-col>
+    <ion-col size="4"><strong>Name</strong></ion-col>
+    <ion-col size="3"><strong>Weight</strong></ion-col>
+    <ion-col size="3"><strong>Symbol</strong></ion-col>
+  </ion-row>
+
+  <!-- Filas de datos -->
+   @for (element of data; track $index) {
+  <ion-row class="table-row ion-text-center">
+    <ion-col size="2">{{ element.position }}</ion-col>
+    <ion-col size="4">{{ element.name }}</ion-col>
+    <ion-col size="3">{{ element.weight }}</ion-col>
+    <ion-col size="3">{{ element.symbol }}</ion-col>
+  </ion-row>
+}
+</ion-grid>
