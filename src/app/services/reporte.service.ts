@@ -4,7 +4,7 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ReporteService {
-  private apiUrl = 'https://api.example.com/reportes'; // Cambia esto por tu URL real
+  private apiUrl = 'https://reporteciudadanoback-production-e324.up.railway.app/api/reportes'; // Cambia esto por tu URL real
   private http= inject(HttpClient);
   constructor() {}
     enviarReporte(formData: FormData, token: string) {

@@ -1,0 +1,91 @@
+ion-menu {
+  --width: 280px;
+  background-color: #ffffff;
+  color: #333;
+  border-right: 1px solid #e0e0e0;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #333;
+  box-shadow: none;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+ion-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+ion-buttons ion-button {
+  color: #666;
+}
+
+.user-section {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.user-section h3 {
+  margin: 8px 0 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.user-section p {
+  font-size: 13px;
+  color: #888;
+  margin: 4px 0 0;
+}
+
+ion-avatar img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+ion-list {
+  margin-top: 10px;
+}
+
+.menu-item {
+  --background-hover: #f0f0f0;
+  --color: #333;
+  font-weight: 500;
+  border-radius: 8px;
+  margin: 4px 0;
+  padding-left: 12px;
+}
+
+.menu-item ion-icon {
+  color: #666;
+  font-size: 20px;
+}
+
+.menu-item.secondary {
+  --color: #555;
+  font-weight: 400;
+}
+
+ion-badge {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.menu-footer {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.menu-footer ion-button {
+  --color: #444;
+  --padding-start: 0;
+  --padding-end: 0;
+  font-size: 14px;
+}
+
+.menu-footer ion-icon {
+  margin-right: 6px;
+}

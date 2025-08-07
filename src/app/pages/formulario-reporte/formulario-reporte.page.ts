@@ -9,8 +9,8 @@ import {
   IonTextarea, IonText
 } from '@ionic/angular/standalone';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ReporteService } from 'src/app/services/reporte.service'; // ajusta la ruta según tu estructura
 
 @Component({
   selector: 'app-formulario-reporte',
@@ -29,7 +29,7 @@ import { RouterModule } from '@angular/router';
 })
 export class FormularioReportePage implements OnInit {
   private fb = inject(FormBuilder);
-  private http = inject(HttpClient);
+  private reporteService = inject(ReporteService);
 
   reporteForm!: FormGroup;
   selectedImage: string | null = null;
@@ -38,8 +38,9 @@ export class FormularioReportePage implements OnInit {
 
   ngOnInit() {
     this.reporteForm = this.fb.group({
+      titulo: ['', Validators.required],
       categoria: ['vial', Validators.required],
-      descripcion: ['', Validators.required],
+      descripcion: ['', Validators.required]
     });
   }
 
@@ -55,7 +56,7 @@ export class FormularioReportePage implements OnInit {
       if (image.dataUrl) {
         this.selectedImage = image.dataUrl;
 
-        // Convertir la imagen a blob
+        // Convertir la imagen a Blob
         const blob = await (await fetch(image.dataUrl)).blob();
         this.selectedFile = new File([blob], `foto_${Date.now()}.jpg`, {
           type: blob.type,
@@ -75,6 +76,7 @@ export class FormularioReportePage implements OnInit {
     this.isSubmitting = true;
 
     const formData = new FormData();
+    formData.append('titulo', this.reporteForm.get('titulo')?.value);
     formData.append('categoria', this.reporteForm.get('categoria')?.value);
     formData.append('descripcion', this.reporteForm.get('descripcion')?.value);
 
@@ -82,28 +84,22 @@ export class FormularioReportePage implements OnInit {
       formData.append('foto', this.selectedFile);
     }
 
-    const token = localStorage.getItem('token'); // token guardado después del login
+    const token = localStorage.getItem('token') ?? '';
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token ?? ''}`,
-      // No pongas 'Content-Type' si usas FormData. Angular lo gestiona automáticamente.
+    this.reporteService.enviarReporte(formData, token).subscribe({
+      next: (res) => {
+        console.log('Reporte enviado correctamente', res);
+        this.reporteForm.reset();
+        this.selectedImage = null;
+        this.selectedFile = null;
+      },
+      error: (err) => {
+        console.error('Error al enviar el reporte', err);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
     });
-
-    this.http.post('http://localhost:8000/api/reportes', formData, { headers })
-      .subscribe({
-        next: (res) => {
-          console.log('Reporte enviado correctamente', res);
-          this.reporteForm.reset();
-          this.selectedImage = null;
-          this.selectedFile = null;
-        },
-        error: (err) => {
-          console.error('Error al enviar el reporte', err);
-        },
-        complete: () => {
-          this.isSubmitting = false;
-        }
-      });
   }
 
   campoInvalido(campo: string): boolean {

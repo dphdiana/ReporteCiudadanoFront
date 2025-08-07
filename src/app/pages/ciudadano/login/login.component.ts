@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import {
-  IonContent, 
-  IonItem, IonLabel, 
-  IonButton, IonInput,IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonButton,
+  IonInput,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonSpinner
 } from '@ionic/angular/standalone';
-import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
-
-
 
 @Component({
   selector: 'app-login',
@@ -19,6 +22,9 @@ import { AuthService } from 'src/app/services/auth.service';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
     IonContent,
     IonItem,
     IonLabel,
@@ -27,38 +33,41 @@ import { AuthService } from 'src/app/services/auth.service';
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonButtons,
-    FormsModule,
-  
-    RouterModule,
-    ReactiveFormsModule,
-    
-    
-]
+    IonSpinner
+  ],
 })
-export class LoginComponent  implements OnInit {
-   correo = '';
+export class LoginComponent implements OnInit {
+  correo = '';
   password = '';
-  constructor(private authService: AuthService
-              , private router: Router, private alertController: AlertController
+  loading = false;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
   ) {}
-  ngOnInit(): void {
 
-  }
-onLogin() {
-  this.authService.login(this.correo, this.password).subscribe({
-    next: (response: any) => {
-      console.log('Login exitoso');
+  ngOnInit(): void {}
 
-      // GUARDAR EL TOKEN
-      localStorage.setItem('token', response.token); // <- GUÁRDALO AQUÍ
-
-      this.router.navigate(['/formulario-reporte']);
-    },
-    error: (err) => {
-      console.error('Error de login', err);
-      alert('Credenciales incorrectas o error del servidor');
+  onLogin(form: NgForm) {
+    if (form.invalid) {
+      Object.values(form.controls).forEach(control => control.markAsTouched());
+      return;
     }
-  });
-}
+
+    this.loading = true;
+
+    this.authService.login(this.correo, this.password).subscribe({
+      next: (response: any) => {
+        localStorage.setItem('token', response.token);
+        this.router.navigate(['/formulario-reporte']);
+      },
+      error: () => {
+        this.loading = false;
+        // Aquí podrías manejar el error visualmente si deseas
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
 }

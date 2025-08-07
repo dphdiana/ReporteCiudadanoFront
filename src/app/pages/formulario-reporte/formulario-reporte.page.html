@@ -22,6 +22,15 @@
     </ion-item>
     <ion-text color="danger" *ngIf="campoInvalido('categoria')">Este campo es obligatorio</ion-text>
 
+    <!-- Título -->
+    <ion-item>
+      <ion-label position="stacked">Título</ion-label>
+      <ion-input
+        formControlName="titulo"
+        placeholder="Ingrese un título breve para el reporte">
+      </ion-input>
+    </ion-item>
+
     <!-- Descripción -->
     <ion-item>
       <ion-label position="stacked">Descripción</ion-label>

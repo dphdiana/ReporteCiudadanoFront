@@ -4,19 +4,58 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <form (ngSubmit)="onLogin()">
-    <ion-item>
-      <ion-label position="floating">Correo</ion-label>
-      <ion-input type="email" [(ngModel)]="correo" name="correo" required></ion-input>
-    </ion-item>
+<ion-content class="ion-padding login-container" fullscreen>
+  <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" novalidate>
+    <div class="form-box">
 
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-    </ion-item>
+      <!-- Correo -->
+      <ion-item class="input-item" [class.invalid]="correoRef.invalid && (correoRef.touched || correoRef.dirty)">
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input
+          type="email"
+          [(ngModel)]="correo"
+          name="correo"
+          #correoRef="ngModel"
+          required
+          email
+          [disabled]="loading"
+        ></ion-input>
+      </ion-item>
+      @if (correoRef.invalid && (correoRef.dirty || correoRef.touched)) {
+        <div class="error">Ingresa un correo válido.</div>
+      }
 
-    <ion-button expand="full" type="submit">Ingresar</ion-button>
+      <!-- Contraseña -->
+      <ion-item class="input-item" [class.invalid]="passwordRef.invalid && (passwordRef.touched || passwordRef.dirty)">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          #passwordRef="ngModel"
+          required
+          minlength="6"
+          [disabled]="loading"
+        ></ion-input>
+      </ion-item>
+      @if (passwordRef.errors?.['required'] && (passwordRef.dirty || passwordRef.touched)) {
+        <div class="error">La contraseña es obligatoria.</div>
+      }
+      @else if (passwordRef.errors?.['minlength'] && (passwordRef.dirty || passwordRef.touched)) {
+        <div class="error">Mínimo 6 caracteres.</div>
+      }
+
+      <!-- Botón -->
+      <ion-button expand="block" type="submit" class="login-button" [disabled]="loading">
+        <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+        <span *ngIf="!loading">Ingresar</span>
+      </ion-button>
+
+      <ion-button expand="block" fill="clear" routerLink="/register" [disabled]="loading">
+        ¿No tienes cuenta? Regístrate
+      </ion-button>
+
+    </div>
   </form>
 </ion-content>
 <router-outlet></router-outlet>

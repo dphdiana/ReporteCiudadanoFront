@@ -1,34 +1,114 @@
-<ion-content class="ion-padding">
-  <ion-item>
-    <ion-label position="floating">Nombre</ion-label>
-    <ion-input [(ngModel)]="nombre" [disabled]="loading"></ion-input>
-  </ion-item>
+<!-- register.component.html -->
+<ion-content class="ion-padding register-container full-screen">
+  <form #registerForm="ngForm" (ngSubmit)="registrar(registerForm)" novalidate>
+    <div class="form-container">
 
-  <ion-item>
-    <ion-label position="floating">Correo electrónico</ion-label>
-    <ion-input type="email" [(ngModel)]="correo" [disabled]="loading"></ion-input>
-  </ion-item>
+      <div class="logo-container">
+        <img src="assets/img/logo.png" class="logo-image" alt="Logo" />
+      </div>
 
-  <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password" [(ngModel)]="password" [disabled]="loading"></ion-input>
-  </ion-item>
+      <!-- Nombre -->
+      <ion-item
+        class="input-item"
+        [class.invalid]="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)"
+      >
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input
+          [(ngModel)]="nombre"
+          name="nombre"
+          #nombreRef="ngModel"
+          required
+          [disabled]="loading"
+        ></ion-input>
+      </ion-item>
+      @if (nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)) {
+        <div class="error">El nombre es obligatorio.</div>
+      }
 
-  <ion-item>
-    <ion-label>Tipo de usuario</ion-label>
-    <ion-select [(ngModel)]="tipo_usuario" [disabled]="loading">
-      <ion-select-option value="ciudadano">Ciudadano</ion-select-option>
-      <ion-select-option value="empresa">Empresa</ion-select-option>
-    </ion-select>
-  </ion-item>
+      <!-- Correo -->
+      <ion-item
+        class="input-item"
+        [class.invalid]="correoRef.invalid && (correoRef.dirty || correoRef.touched)"
+      >
+        <ion-label position="floating">Correo electrónico</ion-label>
+        <ion-input
+          type="email"
+          [(ngModel)]="correo"
+          name="correo"
+          #correoRef="ngModel"
+          required
+          email
+          [disabled]="loading"
+        ></ion-input>
+      </ion-item>
+      @if (correoRef.invalid && (correoRef.dirty || correoRef.touched)) {
+        <div class="error">Por favor ingresa un correo válido.</div>
+      }
 
-  <ion-button expand="block" (click)="registrar()" [disabled]="loading">
-    <ion-spinner *ngIf="loading"></ion-spinner>
-    <span *ngIf="!loading">Registrarse</span>
-  </ion-button>
+      <!-- Contraseña -->
+      <ion-item
+        class="input-item"
+        [class.invalid]="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)"
+      >
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          #passwordRef="ngModel"
+          required
+          minlength="6"
+          [disabled]="loading"
+        ></ion-input>
+      </ion-item>
+      @if (passwordRef.errors?.['required'] && (passwordRef.dirty || passwordRef.touched)) {
+        <div class="error">La contraseña es obligatoria.</div>
+      }
+      @else if (passwordRef.errors?.['minlength'] && (passwordRef.dirty || passwordRef.touched)) {
+        <div class="error">La contraseña debe tener al menos 6 caracteres.</div>
+      }
 
-  <ion-button expand="block" fill="clear" routerLink="/login" [disabled]="loading">
-    ¿Ya tienes cuenta? Inicia sesión
-  </ion-button>
+      <!-- Tipo de usuario -->
+      <ion-item
+        class="input-item"
+        [class.invalid]="tipoUsuarioRef.invalid && (tipoUsuarioRef.dirty || tipoUsuarioRef.touched)"
+      >
+        <ion-label>Tipo de usuario</ion-label>
+        <ion-select
+          [(ngModel)]="tipo_usuario"
+          name="tipo_usuario"
+          #tipoUsuarioRef="ngModel"
+          required
+          [disabled]="loading"
+        >
+          <ion-select-option value="ciudadano">Ciudadano</ion-select-option>
+          <ion-select-option value="empresa">Empresa</ion-select-option>
+        </ion-select>
+      </ion-item>
+      @if (tipoUsuarioRef.invalid && (tipoUsuarioRef.dirty || tipoUsuarioRef.touched)) {
+        <div class="error">Por favor selecciona un tipo de usuario.</div>
+      }
+
+      <ion-button
+        expand="block"
+        class="register-button"
+        type="submit"
+        [disabled]="loading"
+      >
+        <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+        <span *ngIf="!loading">Registrarse</span>
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="clear"
+        routerLink="/login"
+        [disabled]="loading"
+      >
+        ¿Ya tienes cuenta? Inicia sesión
+      </ion-button>
+
+    </div>
+  </form>
 </ion-content>
 <router-outlet></router-outlet>

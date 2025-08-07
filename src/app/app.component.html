@@ -2,7 +2,7 @@
   <!-- Menú Lateral -->
   <ion-menu contentId="main-content" type="overlay" swipeGesture="true">
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar >
         <ion-title style="font-weight: 600;">ReportesApp</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="closeMenu()">
@@ -14,9 +14,7 @@
     <ion-content class="ion-padding">
       <!-- Sección Usuario -->
       <div class="user-section">
-        <ion-avatar class="ion-margin-bottom">
-          <img src="assets/icon/avatar.svg" />
-        </ion-avatar>
+       
         <h3>Usuario Actual</h3>
         <p>usuarioejemplo.com</p>
       </div>
@@ -40,7 +38,7 @@
             class="menu-item">
             <ion-icon slot="start" name="folder-open"></ion-icon>
             <ion-label>Mis Reportes</ion-label>
-            <ion-badge slot="end" color="danger">3</ion-badge>
+            <ion-badge slot="end" >3</ion-badge>
           </ion-item>
         </ion-menu-toggle>
       </ion-list>

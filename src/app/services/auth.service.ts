@@ -27,7 +27,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = 'https://reporteciudadanoback-production-e324.up.railway.app/api'; // Cambia esto a tu URL de API real
   private storageReady = new Promise<void>(resolve => {
     this.storage.create().then(() => resolve());
   });
