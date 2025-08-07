@@ -53,7 +53,7 @@ export class ReportesListComponent {
   
   // Propiedades para paginación
   paginaActual: number = 1;
-  reportesPorPagina: number = 5; // Puedes ajustar este número
+  reportesPorPagina: number = 5;
 
   reportes = [
     {

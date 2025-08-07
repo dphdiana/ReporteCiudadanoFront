@@ -1,7 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
-
-    <!-- Título centrado -->
+  <ion-toolbar style="--background: #7261D8;">
     <ion-title class="ion-text">
       REPORTE CIUDADANO
     </ion-title>
@@ -38,18 +36,18 @@
   <!-- Tabla de reportes -->
   <ion-grid class="ion-padding">
     <ion-row class="table-header ion-text-center">
-      <ion-col size="4"><strong>Nombre</strong></ion-col>
-      <ion-col size="4"><strong>Apellidos</strong></ion-col>
-      <ion-col size="4"><strong>Correo</strong></ion-col>
+      <ion-col size="4"><strong>TIPO</strong></ion-col>
+      <ion-col size="4"><strong>CATEGORIA</strong></ion-col>
+      <ion-col size="4"><strong>DESCRIPCION</strong></ion-col>
     </ion-row>
 
     <ion-row
       *ngFor="let reporte of reportesPaginados()"
       class="table-row ion-text-center"
     >
-      <ion-col size="4">{{ reporte.nombre }}</ion-col>
-      <ion-col size="4">{{ reporte.apellidos }}</ion-col>
-      <ion-col size="4">{{ reporte.correo }}</ion-col>
+      <ion-col size="4">{{ reporte.tipo }}</ion-col>
+      <ion-col size="4">{{ reporte.categoria }}</ion-col>
+      <ion-col size="4">{{ reporte.descripcion }}</ion-col>
     </ion-row>
   </ion-grid>
 
