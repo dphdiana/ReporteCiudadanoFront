@@ -9,19 +9,32 @@ import {
   IonCol,
   IonRow,
   IonGrid,
-  IonSelect,
-  IonSelectOption,
   IonItem,
   IonLabel,
   IonButton,
-  IonIcon, IonButtons } from '@ionic/angular/standalone';
+  IonIcon, 
+  IonButtons, 
+  IonCardContent, 
+  IonCardHeader, 
+  IonCard, 
+  IonCardTitle,
+  IonText,
+  IonChip
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-reportes-list',
   templateUrl: './reportes-list.component.html',
   styleUrls: ['./reportes-list.component.scss'],
   standalone: true,
-  imports: [IonButtons, 
+  imports: [
+    IonChip,
+    IonText,
+    IonCardTitle, 
+    IonCard, 
+    IonCardHeader, 
+    IonCardContent, 
+    IonButtons, 
     FormsModule,             
     IonTitle,
     IonToolbar,
@@ -30,8 +43,6 @@ import {
     IonCol,
     IonRow,
     IonGrid,
-    IonSelect,
-    IonSelectOption,
     IonItem,
     IonLabel,
     IonButton,
@@ -39,7 +50,10 @@ import {
   ]
 })
 export class ReportesListComponent {
-  categoriaSeleccionada: string = '';
+  
+  // Propiedades para paginación
+  paginaActual: number = 1;
+  reportesPorPagina: number = 5; // Puedes ajustar este número
 
   reportes = [
     {
@@ -68,16 +82,62 @@ export class ReportesListComponent {
       tipo: 'Queja',
       categoria: 'Servicios',
       descripcion: 'Falla en alumbrado público'
+    },
+    {
+      nombre: 'Ana',
+      apellidos: 'Martínez',
+      correo: 'ana@example.com',
+      telefono: '9515566778',
+      tipo: 'Queja',
+      categoria: 'Vial',
+      descripcion: 'Semáforo dañado'
+    },
+    {
+      nombre: 'Pedro',
+      apellidos: 'López',
+      correo: 'pedro@example.com',
+      telefono: '9519988776',
+      tipo: 'Sugerencia',
+      categoria: 'Servicios',
+      descripcion: 'Mejorar recolección de basura'
+    },
+    {
+      nombre: 'María',
+      apellidos: 'García',
+      correo: 'maria@example.com',
+      telefono: '9513344556',
+      tipo: 'Queja',
+      categoria: 'Seguridad',
+      descripcion: 'Falta de vigilancia en parque'
     }
   ];
 
   constructor(private router: Router) {}
 
-  reportesFiltrados() {
-    if (!this.categoriaSeleccionada) {
-      return this.reportes;
+  // Getter para calcular el total de páginas
+  get totalPaginas(): number {
+    return Math.ceil(this.reportes.length / this.reportesPorPagina);
+  }
+  
+  // Método para obtener los reportes de la página actual
+  reportesPaginados(): any[] {
+    const inicio = (this.paginaActual - 1) * this.reportesPorPagina;
+    const fin = inicio + this.reportesPorPagina;
+    return this.reportes.slice(inicio, fin);
+  }
+  
+  // Método para ir a la página anterior
+  paginaAnterior(): void {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
     }
-    return this.reportes.filter(r => r.categoria === this.categoriaSeleccionada);
+  }
+  
+  // Método para ir a la página siguiente
+  paginaSiguiente(): void {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+    }
   }
 
   irAInicio() {
@@ -88,5 +148,4 @@ export class ReportesListComponent {
     console.log('Sesión cerrada');
     this.router.navigate(['/login']);
   }
-  
 }

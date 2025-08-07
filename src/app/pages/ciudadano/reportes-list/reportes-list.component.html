@@ -1,61 +1,81 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <!-- Botón de Inicio -->
-    <ion-buttons slot="start">
-      <ion-button (click)="irAInicio()">
+
+    <!-- Título centrado -->
+    <ion-title class="ion-text">
+      REPORTE CIUDADANO
+    </ion-title>
+
+    <!-- Botones al lado derecho -->
+    <ion-buttons slot="end">
+
+      <!-- Botón de Inicio -->
+      <ion-button fill="clear" (click)="irAInicio()">
         <ion-icon name="home-outline" slot="start"></ion-icon>
         Inicio
       </ion-button>
-    </ion-buttons>
 
-    <!-- Título -->
-    <ion-title>REPORTE CIUDADANO</ion-title>
-
-    <!-- Botón de Cerrar Sesión -->
-    <ion-buttons slot="end">
-      <ion-button (click)="cerrarSesion()">
+      <!-- Botón de Cerrar sesión -->
+      <ion-button fill="clear" (click)="cerrarSesion()">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         Cerrar sesión
       </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
 
-  <!-- Filtro por categoría dentro del header -->
-  <ion-toolbar color="light">
-    <ion-item lines="none">
-      <ion-label>Filtrar por Categoría</ion-label>
-      <ion-select [(ngModel)]="categoriaSeleccionada" interface="popover">
-        <ion-select-option value="">Todas</ion-select-option>
-        <ion-select-option value="Vial">Vial</ion-select-option>
-        <ion-select-option value="Seguridad">Seguridad</ion-select-option>
-        <ion-select-option value="Servicios">Servicios</ion-select-option>
-      </ion-select>
-    </ion-item>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  
+  <!-- Información de paginación -->
+  <div class="pagination-info ion-text-center ion-margin-bottom">
+    <ion-text color="medium">
+      <strong>Tabla {{ paginaActual }} de {{ totalPaginas }}</strong>
+    </ion-text>
+  </div>
+
   <!-- Tabla de reportes -->
   <ion-grid class="ion-padding">
     <ion-row class="table-header ion-text-center">
-      <ion-col size="2"><strong>Nombre</strong></ion-col>
-      <ion-col size="2"><strong>Apellidos</strong></ion-col>
-      <ion-col size="2"><strong>Correo</strong></ion-col>
-      <ion-col size="2"><strong>Teléfono</strong></ion-col>
-      <ion-col size="2"><strong>Tipo</strong></ion-col>
-      <ion-col size="2"><strong>Categoría</strong></ion-col>
+      <ion-col size="4"><strong>Nombre</strong></ion-col>
+      <ion-col size="4"><strong>Apellidos</strong></ion-col>
+      <ion-col size="4"><strong>Correo</strong></ion-col>
     </ion-row>
 
     <ion-row
-      *ngFor="let reporte of reportesFiltrados()"
+      *ngFor="let reporte of reportesPaginados()"
       class="table-row ion-text-center"
     >
-      <ion-col size="2">{{ reporte.nombre }}</ion-col>
-      <ion-col size="2">{{ reporte.apellidos }}</ion-col>
-      <ion-col size="2">{{ reporte.correo }}</ion-col>
-      <ion-col size="2">{{ reporte.telefono }}</ion-col>
-      <ion-col size="2">{{ reporte.tipo }}</ion-col>
-      <ion-col size="2">{{ reporte.categoria }}</ion-col>
+      <ion-col size="4">{{ reporte.nombre }}</ion-col>
+      <ion-col size="4">{{ reporte.apellidos }}</ion-col>
+      <ion-col size="4">{{ reporte.correo }}</ion-col>
     </ion-row>
   </ion-grid>
+
+  <!-- Controles de paginación -->
+  <div class="pagination-controls ion-text-center ion-margin-top">
+    <ion-button 
+      fill="clear" 
+      (click)="paginaAnterior()" 
+      [disabled]="paginaActual === 1"
+      color="primary">
+      <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+      Anterior
+    </ion-button>
+
+    <ion-chip color="primary" style="margin: 0 16px;">
+      <ion-label>{{ paginaActual }} / {{ totalPaginas }}</ion-label>
+    </ion-chip>
+
+    <ion-button 
+      fill="clear" 
+      (click)="paginaSiguiente()" 
+      [disabled]="paginaActual === totalPaginas"
+      color="primary">
+      Siguiente
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+
 </ion-content>
