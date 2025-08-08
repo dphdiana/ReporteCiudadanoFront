@@ -37,7 +37,7 @@ import { AuthService } from 'src/app/services/auth.service';
   ],
 })
 export class LoginComponent implements OnInit {
-  correo = '';
+  email = '';
   password = '';
   loading = false;
 
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.authService.login(this.correo, this.password).subscribe({
+    this.authService.login(this.email, this.password).subscribe({
       next: (response: any) => {
         localStorage.setItem('token', response.token);
         this.router.navigate(['/formulario-reporte']);

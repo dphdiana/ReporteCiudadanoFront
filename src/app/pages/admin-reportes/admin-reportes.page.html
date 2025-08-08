@@ -1,27 +1,32 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Lista de Reportes</ion-title>
+    <ion-title>Reportes Recibidos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list *ngIf="reportes.length > 0; else noReportes">
-    <ion-item *ngFor="let reporte of reportes" lines="inset">
-      <ion-thumbnail slot="start" *ngIf="reporte.foto">
-        <ion-img [src]="reporte.foto" alt="Foto del reporte"></ion-img>
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ reporte.tipo }}</h2>
-        <p><strong>Reportado por:</strong> {{ reporte.nombre }}</p>
-        <p><strong>Descripción:</strong> {{ reporte.descripcion }}</p>
-        <p><strong>Fecha:</strong> {{ reporte.fecha }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
 
-  <ng-template #noReportes>
-    <ion-text color="medium">
-      <p class="ion-text-center">No hay reportes disponibles.</p>
-    </ion-text>
-  </ng-template>
+  @if (reportes.length > 0) {
+    <ion-list>
+      @for (reporte of reportes; track reporte.id) {
+        <ion-item>
+          <ion-label>
+            <h2>{{ reporte.titulo }}</h2>
+            <p><strong>Categoría:</strong> {{ reporte.categoria }}</p>
+            <p><strong>Descripción:</strong> {{ reporte.descripcion }}</p>
+            <p><strong>Estado:</strong> {{ reporte.estado }}</p>
+          </ion-label>
+
+          <ion-select placeholder="Cambiar estado" (ionChange)="actualizarEstado(reporte.id, $event.detail.value)">
+            @for (estado of estados; track estado) {
+              <ion-select-option [value]="estado">{{ estado }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+      }
+    </ion-list>
+  } @else {
+    <ion-text color="medium">No hay reportes registrados.</ion-text>
+  }
+
 </ion-content>

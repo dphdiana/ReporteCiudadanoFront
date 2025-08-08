@@ -86,7 +86,7 @@ export class FormularioReportePage implements OnInit {
 
     const token = localStorage.getItem('token') ?? '';
 
-    this.reporteService.enviarReporte(formData, token).subscribe({
+    this.reporteService.enviarReporte(formData).subscribe({
       next: (res) => {
         console.log('Reporte enviado correctamente', res);
         this.reporteForm.reset();

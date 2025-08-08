@@ -12,8 +12,8 @@ interface UserProfile {
   // ... otras propiedades
 }
 interface RegisterData {
-  nombre: string;
-  correo: string;
+  name: string;
+  email: string;
   password: string;
   tipo_usuario: string; // Añade esta propiedad
 }
@@ -54,8 +54,8 @@ export class AuthService {
     });
   }
 
-  login(correo: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { correo, password }).pipe(
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(async (res) => {
         await this.storageReady;
         await this.storage.set('token', res.access_token);
@@ -104,7 +104,7 @@ export class AuthService {
     return !!token;
   }
 
- register(data: { nombre: string; correo: string; password: string }): Observable<LoginResponse> {
+ register(data: { name: string; email: string; password: string }): Observable<LoginResponse> {
   return this.http.post<LoginResponse>(`${this.apiUrl}/register`, data).pipe(
     tap(async (res) => {
       await this.storageReady;

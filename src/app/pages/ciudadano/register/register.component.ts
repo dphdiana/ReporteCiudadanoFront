@@ -16,7 +16,7 @@ import {
 } from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/services/auth.service';
 
-type UserType = 'ciudadano' | 'empresa';
+type UserType = 'ciudadano' | 'admin'; // Define los tipos de usuario que necesitas
 
 @Component({
   selector: 'app-register',
@@ -38,8 +38,8 @@ type UserType = 'ciudadano' | 'empresa';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  nombre = '';
-  correo = '';
+  name = '';
+  email = '';
   password = '';
   tipo_usuario: UserType = 'ciudadano';
   loading = false;
@@ -61,8 +61,8 @@ export class RegisterComponent {
     this.loading = true;
 
     const registerData = {
-      nombre: this.nombre,
-      correo: this.correo,
+      name: this.name,
+      email: this.email,
       password: this.password,
       tipo_usuario: this.tipo_usuario
     };

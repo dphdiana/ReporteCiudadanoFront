@@ -10,18 +10,18 @@
       <!-- Nombre -->
       <ion-item
         class="input-item"
-        [class.invalid]="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)"
+        [class.invalid]="nameRef.invalid && (nameRef.dirty || nameRef.touched)"
       >
         <ion-label position="floating">Nombre</ion-label>
         <ion-input
-          [(ngModel)]="nombre"
-          name="nombre"
-          #nombreRef="ngModel"
+          [(ngModel)]="name"
+          name="name"
+          #nameRef="ngModel"
           required
           [disabled]="loading"
         ></ion-input>
       </ion-item>
-      @if (nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)) {
+      @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
         <div class="error">El nombre es obligatorio.</div>
       }
 
@@ -33,8 +33,8 @@
         <ion-label position="floating">Correo electrónico</ion-label>
         <ion-input
           type="email"
-          [(ngModel)]="correo"
-          name="correo"
+          [(ngModel)]="email"
+          name="email"
           #correoRef="ngModel"
           required
           email
@@ -82,7 +82,7 @@
           [disabled]="loading"
         >
           <ion-select-option value="ciudadano">Ciudadano</ion-select-option>
-          <ion-select-option value="empresa">Empresa</ion-select-option>
+          <ion-select-option value="admin">Admin</ion-select-option>
         </ion-select>
       </ion-item>
       @if (tipoUsuarioRef.invalid && (tipoUsuarioRef.dirty || tipoUsuarioRef.touched)) {
