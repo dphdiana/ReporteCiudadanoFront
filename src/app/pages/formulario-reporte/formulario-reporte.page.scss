@@ -1,29 +1,17 @@
-/* login.component.scss o register.component.scss */
-
-.login-container, .register-container .register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: #f6f6f6; // fondo neutro claro
-}
-
-.form-box, .form-container {
-  width: 100%;
-  max-width: 400px;
+.formulario-container {
   padding: 24px;
-  background-color: #ffffff;
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05); // sombra sutil
-}
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px;
 
-.input-item {
-  margin-bottom: 16px;
-  --background: #fafafa;
-  --border-radius: 8px;
-  --padding-start: 12px;
-  --padding-end: 12px;
-  --color: #333;
+  ion-item.input-item {
+    --background: #fafafa;
+    --highlight-color-focused: #3880ff;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+  }
 
   ion-label {
     color: #555;
@@ -32,38 +20,45 @@
   }
 
   ion-input,
-  ion-select {
+  ion-select,
+  ion-textarea {
+    font-size: 15px;
     --color: #333;
-    font-size: 14px;
   }
-}
 
-.invalid {
-  border: 1px solid #e53935 !important;
-  --highlight-color-focused: #e53935 !important;
-}
+  .submit-button {
+    margin-top: 24px;
+    --background:#192BC2;
+    --color: #fff;
+    --border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+  }
 
-.error {
-  color: #e53935;
-  font-size: 13px;
-  margin: 4px 16px 12px;
-}
+  .submit-button:hover {
+    --background: #000851;
+  }
 
-.login-button, .register-button {
-  margin-top: 20px;
-  --background: #333333;
-  --color: #ffffff;
-  --border-radius: 8px;
-  font-weight: 600;
-  font-size: 15px;
-  transition: background-color 0.3s ease;
-}
+  .register-button {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
 
-.login-button:hover, .register-button:hover {
-  --background: #222222;
-}
+  .error {
+    font-size: 13px;
+    margin-left: 12px;
+    margin-bottom: 8px;
+    display: block;
+    color: #e53935;
+  }
 
-ion-button[fill="clear"] {
-  font-size: 14px;
-  color: #555;
+  .preview-image {
+    margin-top: 16px;
+    max-height: 180px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
 }

@@ -30,6 +30,6 @@ export class ReporteService {
 
   actualizarEstado(id: number, estado: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.patch(`${this.apiUrl}/reportes/${id}/estado`, { estado }, { headers });
+    return this.http.put(`${this.apiUrl}/reportes/${id}/estado`, { estado }, { headers });
   }
 }

@@ -1,9 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ReporteService } from 'src/app/services/reporte.service';
 import { CommonModule } from '@angular/common';
-import {   IonSelectOption, IonButton, } from '@ionic/angular/standalone';
+import { 
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonText,
+  IonSelect, 
+  IonSelectOption
+} from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
-import{ IonicModule } from '@ionic/angular';
+
 @Component({
   selector: 'app-admin-reportes',
   standalone: true,
@@ -12,10 +23,17 @@ import{ IonicModule } from '@ionic/angular';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-   IonSelectOption, IonButton,
-    
-]
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonText,
+    IonSelect,
+    IonSelectOption
+  ]
 })
 export class AdminReportesPage implements OnInit {
   private reporteService = inject(ReporteService);
@@ -23,7 +41,7 @@ export class AdminReportesPage implements OnInit {
 
   estados = ['pendiente', 'en_proceso', 'resuelto', 'rechazado'];
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.cargarReportes();
   }
 

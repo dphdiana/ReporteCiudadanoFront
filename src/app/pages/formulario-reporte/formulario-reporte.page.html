@@ -1,59 +1,58 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>Nuevo Reporte</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <div class="formulario-container">
 
-  <form [formGroup]="reporteForm" (ngSubmit)="enviarReporte()">
+    <form [formGroup]="reporteForm" (ngSubmit)="enviarReporte()">
 
-    <!-- Tipo de Reporte -->
-  
+      <!-- Categoría -->
+      <ion-item class="input-item" lines="none">
+        <ion-label position="stacked">Categoría</ion-label>
+        <ion-select formControlName="categoria">
+          <ion-select-option value="vial">Vial</ion-select-option>
+          <ion-select-option value="seguridad">Seguridad</ion-select-option>
+          <ion-select-option value="servicios">Servicios</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-text color="danger" *ngIf="campoInvalido('categoria')" class="error">Este campo es obligatorio</ion-text>
 
-    <!-- Categoría -->
-    <ion-item>
-      <ion-label position="stacked">Categoría</ion-label>
-      <ion-select formControlName="categoria">
-        <ion-select-option value="vial">Vial</ion-select-option>
-        <ion-select-option value="seguridad">Seguridad</ion-select-option>
-        <ion-select-option value="servicios">Servicios</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-text color="danger" *ngIf="campoInvalido('categoria')">Este campo es obligatorio</ion-text>
+      <!-- Título -->
+      <ion-item class="input-item" lines="none">
+        <ion-label position="stacked">Título</ion-label>
+        <ion-input
+          formControlName="titulo"
+          placeholder="Ingrese un título breve para el reporte">
+        </ion-input>
+      </ion-item>
 
-    <!-- Título -->
-    <ion-item>
-      <ion-label position="stacked">Título</ion-label>
-      <ion-input
-        formControlName="titulo"
-        placeholder="Ingrese un título breve para el reporte">
-      </ion-input>
-    </ion-item>
+      <!-- Descripción -->
+      <ion-item class="input-item" lines="none">
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea
+          formControlName="descripcion"
+          autoGrow="true"
+          placeholder="Describe el problema...">
+        </ion-textarea>
+      </ion-item>
+      <ion-text color="danger" *ngIf="campoInvalido('descripcion')" class="error">Este campo es obligatorio</ion-text>
 
-    <!-- Descripción -->
-    <ion-item>
-      <ion-label position="stacked">Descripción</ion-label>
-      <ion-textarea
-        formControlName="descripcion"
-        autoGrow="true"
-        placeholder="Describe el problema...">
-      </ion-textarea>
-    </ion-item>
-    <ion-text color="danger" *ngIf="campoInvalido('descripcion')">Este campo es obligatorio</ion-text>
+      <!-- Foto -->
+      <div class="ion-margin-top ion-text-center">
+        <ion-button class="submit-button" expand="block" (click)="tomarFoto()">Tomar Foto</ion-button>
+        <ion-img *ngIf="selectedImage" [src]="selectedImage" class="preview-image"></ion-img>
+      </div>
 
-    <!-- Foto -->
-    <div class="ion-margin-top ion-text-center">
-      <ion-button expand="block" (click)="tomarFoto()">Tomar Foto</ion-button>
-      <ion-img *ngIf="selectedImage" [src]="selectedImage" class="preview-image"></ion-img>
-    </div>
+      <!-- Botones -->
+      <ion-button type="submit" expand="block" class="submit-button" [disabled]="isSubmitting || reporteForm.invalid">
+        {{ isSubmitting ? 'Enviando...' : 'Enviar Reporte' }}
+      </ion-button>
 
-    <!-- Botón de Enviar -->
-    <ion-button type="submit" expand="block" [disabled]="isSubmitting || reporteForm.invalid">
-      {{ isSubmitting ? 'Enviando...' : 'Enviar Reporte' }}
-    </ion-button>
+      
+    </form>
 
-  </form>
-
+  </div>
 </ion-content>
-<router-outlet></router-outlet>
