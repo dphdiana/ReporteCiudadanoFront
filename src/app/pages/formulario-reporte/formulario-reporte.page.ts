@@ -9,8 +9,9 @@ import {
   IonTextarea, IonText
 } from '@ionic/angular/standalone';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
 import { RouterModule } from '@angular/router';
-import { ReporteService } from 'src/app/services/reporte.service'; // ajusta la ruta según tu estructura
+import { ReporteService } from 'src/app/services/reporte.service';
 
 @Component({
   selector: 'app-formulario-reporte',
@@ -24,7 +25,7 @@ import { ReporteService } from 'src/app/services/reporte.service'; // ajusta la 
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonItem, IonLabel, IonImg, IonSelectOption,
     IonButton, IonList, IonInput, IonSelect,
-    IonTextarea, IonText, RouterModule
+    IonTextarea, IonText, RouterModule,
   ]
 })
 export class FormularioReportePage implements OnInit {
@@ -55,8 +56,6 @@ export class FormularioReportePage implements OnInit {
 
       if (image.dataUrl) {
         this.selectedImage = image.dataUrl;
-
-        // Convertir la imagen a Blob
         const blob = await (await fetch(image.dataUrl)).blob();
         this.selectedFile = new File([blob], `foto_${Date.now()}.jpg`, {
           type: blob.type,
@@ -67,7 +66,21 @@ export class FormularioReportePage implements OnInit {
     }
   }
 
-  enviarReporte(): void {
+  async obtenerUbicacion() {
+    try {
+      const position = await Geolocation.getCurrentPosition();
+      console.log('Ubicación:', position);
+      return {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+    } catch (err) {
+      console.error('Error obteniendo ubicación', err);
+      return null;
+    }
+  }
+
+  async enviarReporte(): Promise<void> {
     if (this.reporteForm.invalid) {
       this.reporteForm.markAllAsTouched();
       return;
@@ -84,7 +97,12 @@ export class FormularioReportePage implements OnInit {
       formData.append('foto', this.selectedFile);
     }
 
-    const token = localStorage.getItem('token') ?? '';
+    // Obtener ubicación antes de enviar
+    const ubicacion = await this.obtenerUbicacion();
+    if (ubicacion) {
+      formData.append('latitud', ubicacion.lat.toString());
+      formData.append('longitud', ubicacion.lng.toString());
+    }
 
     this.reporteService.enviarReporte(formData).subscribe({
       next: (res) => {

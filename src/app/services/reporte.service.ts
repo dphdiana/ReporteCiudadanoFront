@@ -32,4 +32,9 @@ export class ReporteService {
     const headers = this.getAuthHeaders();
     return this.http.put(`${this.apiUrl}/reportes/${id}/estado`, { estado }, { headers });
   }
+
+  
 }
+
+
+//
