@@ -11,9 +11,17 @@ import {
   IonLabel,
   IonText,
   IonSelect, 
-  IonSelectOption
+  IonSelectOption,
+  IonButton,
+  IonIcon
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
+// En tu componente o módulo principal
+import { addIcons } from 'ionicons';
+import { trashOutline } from 'ionicons/icons';
+
+// Registra los iconos (puedes hacerlo en el constructor de tu componente)
+addIcons({ trashOutline });
 
 @Component({
   selector: 'app-admin-reportes',
@@ -32,7 +40,10 @@ import { FormsModule } from '@angular/forms';
     IonLabel,
     IonText,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonButton,
+    IonIcon
+    
   ]
 })
 export class AdminReportesPage implements OnInit {
@@ -61,4 +72,19 @@ export class AdminReportesPage implements OnInit {
       error: (err) => console.error('Error al actualizar estado', err)
     });
   }
+
+  borrarReporte(id: number) {
+  if (confirm('¿Seguro que deseas eliminar este reporte?')) {
+    this.reporteService.eliminarReporte(id).subscribe({
+      next: () => {
+        alert('Reporte eliminado correctamente');
+        this.cargarReportes(); // Recarga la lista
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Error al eliminar el reporte');
+      }
+    });
+  }
+}
 }

@@ -12,7 +12,7 @@ import { MenuController } from '@ionic/angular/standalone'; // Cambiado a standa
 import { addIcons } from 'ionicons';
 import { 
   close, documentText, folderOpen,
-  settings, helpCircle, logOut
+  settings, helpCircle, logOut,heart,map
 } from 'ionicons/icons';
 import { HttpClient } from '@angular/common/http';
 @Component({
@@ -34,7 +34,7 @@ export class AppComponent {
   constructor() {
     addIcons({ 
       close, documentText, folderOpen,
-      settings, helpCircle, logOut 
+      settings, helpCircle, logOut, map
     });
   }
 

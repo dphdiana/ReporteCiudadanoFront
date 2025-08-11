@@ -1,32 +1,47 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Reportes Recibidos</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-list>
+  @for (reporte of reportes; track reporte.id) {
+    <ion-item>
+      <ion-label>
+        <h2>{{ reporte.titulo }}</h2>
+        <p>{{ reporte.descripcion }}</p>
+        <p><strong>Estado:</strong> {{ reporte.estado }}</p>
 
-<ion-content class="ion-padding">
+        <!-- Imagen con tamaño fijo y mejor estilo -->
+        @if (reporte.foto_url) {
+          <div style="margin-top: 8px; text-align: center;">
+            <img 
+              [src]="reporte.foto_url" 
+              alt="Foto del reporte" 
+              style="max-width: 100%; 
+                     max-height: 200px; 
+                     border-radius: 8px;
+                     object-fit: cover;
+                     display: block;
+                     margin: 0 auto;">
+          </div>
+        }
+      </ion-label>
 
-  @if (reportes.length > 0) {
-    <ion-list>
-      @for (reporte of reportes; track reporte.id) {
-        <ion-item>
-          <ion-label>
-            <h2>{{ reporte.titulo }}</h2>
-            <p><strong>Categoría:</strong> {{ reporte.categoria }}</p>
-            <p><strong>Descripción:</strong> {{ reporte.descripcion }}</p>
-            <p><strong>Estado:</strong> {{ reporte.estado }}</p>
-          </ion-label>
+      <!-- Selector de estado -->
+      <ion-select 
+        [value]="reporte.estado" 
+        (ionChange)="actualizarEstado(reporte.id, $event.detail.value)"
+        interface="action-sheet">
+        @for (estado of estados; track estado) {
+          <ion-select-option [value]="estado">
+            {{ estado }}
+          </ion-select-option>
+        }
+      </ion-select>
 
-          <ion-select placeholder="Cambiar estado" (ionChange)="actualizarEstado(reporte.id, $event.detail.value)">
-            @for (estado of estados; track estado) {
-              <ion-select-option [value]="estado">{{ estado }}</ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-      }
-    </ion-list>
-  } @else {
-    <ion-text color="medium">No hay reportes registrados.</ion-text>
+      <!-- Botón eliminar -->
+      <ion-button 
+        slot="end"
+        color="danger" 
+        fill="clear" 
+        (click)="borrarReporte(reporte.id)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
   }
-
-</ion-content>
+</ion-list>

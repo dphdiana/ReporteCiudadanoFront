@@ -80,45 +80,51 @@ export class FormularioReportePage implements OnInit {
     }
   }
 
-  async enviarReporte(): Promise<void> {
-    if (this.reporteForm.invalid) {
-      this.reporteForm.markAllAsTouched();
-      return;
-    }
+async enviarReporte(): Promise<void> {
+  if (this.reporteForm.invalid) {
+    this.reporteForm.markAllAsTouched();
+    return;
+  }
 
-    this.isSubmitting = true;
+  this.isSubmitting = true;
 
-    const formData = new FormData();
-    formData.append('titulo', this.reporteForm.get('titulo')?.value);
-    formData.append('categoria', this.reporteForm.get('categoria')?.value);
-    formData.append('descripcion', this.reporteForm.get('descripcion')?.value);
+  const formData = new FormData();
+  formData.append('titulo', this.reporteForm.get('titulo')?.value);
+  formData.append('categoria', this.reporteForm.get('categoria')?.value);
+  formData.append('descripcion', this.reporteForm.get('descripcion')?.value);
 
-    if (this.selectedFile) {
-      formData.append('foto', this.selectedFile);
-    }
+  if (this.selectedFile) {
+    formData.append('foto', this.selectedFile);
+  }
 
-    // Obtener ubicación antes de enviar
+  // Obtener ubicación antes de enviar
+  try {
     const ubicacion = await this.obtenerUbicacion();
     if (ubicacion) {
       formData.append('latitud', ubicacion.lat.toString());
       formData.append('longitud', ubicacion.lng.toString());
     }
-
-    this.reporteService.enviarReporte(formData).subscribe({
-      next: (res) => {
-        console.log('Reporte enviado correctamente', res);
-        this.reporteForm.reset();
-        this.selectedImage = null;
-        this.selectedFile = null;
-      },
-      error: (err) => {
-        console.error('Error al enviar el reporte', err);
-      },
-      complete: () => {
-        this.isSubmitting = false;
-      }
-    });
+  } catch (err) {
+    console.warn('No se pudo obtener ubicación', err);
   }
+
+  this.reporteService.enviarReporte(formData).subscribe({
+    next: (res) => {
+      console.log('Reporte enviado correctamente', res);
+      alert('✅ Reporte enviado correctamente');
+      this.reporteForm.reset();
+      this.selectedImage = null;
+      this.selectedFile = null;
+    },
+    error: (err) => {
+      console.error('Error al enviar el reporte', err);
+      alert('❌ Hubo un error al enviar el reporte');
+    },
+    complete: () => {
+      this.isSubmitting = false;
+    }
+  });
+}
 
   campoInvalido(campo: string): boolean {
     const control = this.reporteForm.get(campo);

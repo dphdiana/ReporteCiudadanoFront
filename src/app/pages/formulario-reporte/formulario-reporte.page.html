@@ -41,16 +41,21 @@
       <ion-text color="danger" *ngIf="campoInvalido('descripcion')" class="error">Este campo es obligatorio</ion-text>
 
       <!-- Foto -->
-      <div class="ion-margin-top ion-text-center">
-        <ion-button class="submit-button" expand="block" (click)="tomarFoto()">Tomar Foto</ion-button>
-        <ion-img *ngIf="selectedImage" [src]="selectedImage" class="preview-image"></ion-img>
-      </div>
-
+    <div class="ion-margin-top ion-text-center foto-container">
+  <ion-button class="submit-button" expand="block" (click)="tomarFoto()">Tomar Foto</ion-button>
+  <div class="preview-wrapper" *ngIf="selectedImage">
+    <ion-img [src]="selectedImage"></ion-img>
+  </div>
+</div>
       <!-- Botones -->
-      <ion-button type="submit" expand="block" class="submit-button" [disabled]="isSubmitting || reporteForm.invalid">
-        {{ isSubmitting ? 'Enviando...' : 'Enviar Reporte' }}
-      </ion-button>
 
+    <ion-button
+  type="submit"
+  expand="block"
+  class="submit-button"
+  [disabled]="isSubmitting || reporteForm.invalid">
+  {{ isSubmitting ? 'Enviando...' : 'Enviar Reporte' }}
+</ion-button>
       
     </form>
 
