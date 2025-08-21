@@ -1,0 +1,10 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "reportes-ciudadanos",
+	"webDir": "www",
+	"plugins": {
+		"CapacitorHttp": {
+			"enabled": true
+		}
+	}
+}
